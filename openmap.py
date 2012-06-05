@@ -16,12 +16,13 @@ class OpenMap:
         self.__assign(items)
         
     def __rebuild(self, items):
+        oldCapacity = self.capacity
         oldArray = self.array
         oldUsed = self.used
         self.__assign(items)
-        for i, (k, v) in enumerate(oldArray):
+        for i in xrange(oldCapacity):
             if oldUsed[i]:
-                self.__setitem__(k, v)
+                self.__setitem__(oldArray[i][0], oldArray[i][1])
     
     def __len__(self):
         return self.keys

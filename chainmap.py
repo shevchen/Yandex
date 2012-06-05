@@ -1,7 +1,7 @@
 from argparse import ArgumentError
 
 class ChainMap:
-    __loadFactor = 0.75
+    __loadFactor = 0.65
     __capacityMult = 2
     
     def __init__(self, items=20):
@@ -30,9 +30,10 @@ class ChainMap:
     
     def __setitem__(self, key, value):
         chain = self.array[hash(key) % self.capacity]
-        for i, (k, _) in enumerate(chain):
-            if k == key:
-                chain[i] = value
+        for i in xrange(len(chain)):
+            t = chain[i]
+            if t[0] == key:
+                chain[i] = key, value
                 return
         chain.append((key, value))
         self.keys += 1
