@@ -5,12 +5,20 @@ class OpenMap:
     __capacityMult = 2
     
     def __init__(self, items=20):
-        if items < 0:
+        if items <= 0:
             raise ArgumentError(items)
-        pass
+        self.capacity = items
+        self.keys = 0
+        self.array = [[] for _ in xrange(self.capacity)]
         
     def __rebuild(self, items):
-        pass
+        oldArray = self.array
+        oldCapacity = self.capacity
+        self.array = [[] for _ in xrange(items)]
+        self.capacity = 0
+        for i in xrange(oldCapacity):
+            for k, v in oldArray[i]:
+                self.__setitem__(k, v)
     
     def __len__(self):
         return self.keys

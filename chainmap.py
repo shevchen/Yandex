@@ -5,7 +5,7 @@ class ChainMap:
     __capacityMult = 2
     
     def __init__(self, items=20):
-        if items < 0:
+        if items <= 0:
             raise ArgumentError(items)
         self.capacity = items
         self.keys = 0
