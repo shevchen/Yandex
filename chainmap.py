@@ -32,7 +32,7 @@ class ChainMap:
         chain = self.array[hash(key) % self.capacity]
         for i, (k, _) in enumerate(chain):
             if k == key:
-                list[i] = value
+                chain[i] = value
                 return
         chain.append((key, value))
         self.keys += 1
@@ -61,8 +61,19 @@ class ChainMap:
         for i in xrange(self.capacity):
             del self.array[i][:]
         self.keys = 0
-            
+        
+    def __iter__(self):
+        size = self.keys
+        for i in xrange(self.capacity):
+            for k, _ in self.array[i]:
+                if size != self.keys:
+                    raise RuntimeError("dictionary changed size during iteration")
+                yield k
+    
     def iteritems(self):
+        size = self.keys
         for i in xrange(self.capacity):
             for t in self.array[i]:
+                if size != self.keys:
+                    raise RuntimeError("dictionary changed size during iteration")
                 yield t
